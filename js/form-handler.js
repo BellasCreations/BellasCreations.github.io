@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Order Form
   const orderForm = document.getElementById("orderForm")
   if (orderForm) {
-    orderForm.addEventListener("submit", function (event) {
+    orderForm.addEventListener("submit", (event) => {
       event.preventDefault() // Prevent default form submission
 
       // Basic validation
@@ -38,74 +38,90 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Create FormData object
-      const formData = new FormData(this)
+      const formData = new FormData(orderForm)
 
-      // Check if there's a file upload
-      const fileUpload = document.getElementById("fileUpload")
-      if (fileUpload && fileUpload.files.length > 0) {
-        // File exists, use fetch with FormData
-        fetch(orderForm.action, {
-          method: "POST",
-          body: formData,
-          headers: {
-            Accept: "application/json",
-          },
-        })
-          .then((response) => {
-            if (response.ok) {
-              showSuccessAndRedirect()
-            } else {
-              throw new Error("Network response was not ok")
+      // Send form data via POST
+      fetch(orderForm.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((response) => {
+          if (response.ok) {
+            // Show success notification
+            const notification = document.getElementById("notification")
+            if (notification) {
+              const notificationContent = notification.querySelector(".notification-content p")
+              if (notificationContent) {
+                notificationContent.textContent =
+                  "Вашата заявка за поръчка е изпратена успешно! Ще се свържем с вас скоро."
+              }
+              notification.style.display = "block"
+
+              // Hide notification after 5 seconds
+              setTimeout(() => {
+                notification.style.display = "none"
+              }, 5000)
             }
-          })
-          .catch((error) => {
-            showErrorNotification(error)
-          })
-          .finally(() => {
-            resetButtonState(submitButton)
-          })
-      } else {
-        // No file, use regular form submission
-        // Convert FormData to URL encoded string
-        const formEntries = Array.from(formData.entries())
-        const formParams = new URLSearchParams()
 
-        formEntries.forEach(([key, value]) => {
-          // Skip file input if empty
-          if (key !== "attachment" || (key === "attachment" && value.size > 0)) {
-            formParams.append(key, value)
+            // Reset form
+            orderForm.reset()
+
+            // Reset file info if exists
+            const fileInfo = document.getElementById("fileInfo")
+            if (fileInfo) {
+              fileInfo.textContent = ""
+              fileInfo.style.backgroundColor = ""
+              fileInfo.style.borderLeft = ""
+            }
+
+            // Redirect to thank you page
+            window.location.href = "thank-you.html"
+          } else {
+            throw new Error("Network response was not ok")
           }
         })
+        .catch((error) => {
+          console.error("Error:", error)
 
-        fetch(orderForm.action, {
-          method: "POST",
-          body: formParams,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Accept: "application/json",
-          },
-        })
-          .then((response) => {
-            if (response.ok) {
-              showSuccessAndRedirect()
-            } else {
-              throw new Error("Network response was not ok")
+          // Show error notification
+          const notification = document.getElementById("notification")
+          if (notification) {
+            const notificationContent = notification.querySelector(".notification-content p")
+            if (notificationContent) {
+              notificationContent.textContent = "Възникна грешка при изпращането. Моля, опитайте отново по-късно."
             }
-          })
-          .catch((error) => {
-            showErrorNotification(error)
-          })
-          .finally(() => {
-            resetButtonState(submitButton)
-          })
-      }
+            const notificationIcon = notification.querySelector(".notification-content i")
+            if (notificationIcon) {
+              notificationIcon.className = "fas fa-exclamation-circle"
+              notificationIcon.style.color = "var(--error-color)"
+            }
+            notification.style.borderLeftColor = "var(--error-color)"
+            notification.style.display = "block"
+          }
+        })
+        .finally(() => {
+          // Reset button state
+          if (submitButton) {
+            const buttonText = submitButton.querySelector(".btn-text")
+            const buttonIcon = submitButton.querySelector(".btn-icon")
+            const loadingIndicator = submitButton.querySelector(".loading-indicator")
+
+            submitButton.disabled = false
+            if (buttonText) buttonText.textContent = "Изпрати Заявка за Поръчка"
+            if (buttonIcon) buttonIcon.style.display = "inline-block"
+            if (loadingIndicator) loadingIndicator.style.display = "none"
+          }
+        })
     })
   }
 
   // Contact Form
   const contactForm = document.getElementById("contactForm")
   if (contactForm) {
-    contactForm.addEventListener("submit", function (event) {
+    contactForm.addEventListener("submit", (event) => {
       event.preventDefault() // Prevent default form submission
 
       // Basic validation
@@ -133,100 +149,76 @@ document.addEventListener("DOMContentLoaded", () => {
         if (loadingIndicator) loadingIndicator.style.display = "inline-block"
       }
 
-      // Create FormData object and convert to URL encoded string
-      const formData = new FormData(this)
-      const formEntries = Array.from(formData.entries())
-      const formParams = new URLSearchParams()
-
-      formEntries.forEach(([key, value]) => {
-        formParams.append(key, value)
-      })
+      // Create FormData object
+      const formData = new FormData(contactForm)
 
       // Send form data via POST
       fetch(contactForm.action, {
         method: "POST",
-        body: formParams,
+        body: formData,
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
           Accept: "application/json",
         },
       })
         .then((response) => {
           if (response.ok) {
-            showSuccessAndRedirect()
+            // Show success notification
+            const notification = document.getElementById("notification")
+            if (notification) {
+              const notificationContent = notification.querySelector(".notification-content p")
+              if (notificationContent) {
+                notificationContent.textContent = "Вашето съобщение е изпратено успешно! Ще се свържем с вас скоро."
+              }
+              notification.style.display = "block"
+
+              // Hide notification after 5 seconds
+              setTimeout(() => {
+                notification.style.display = "none"
+              }, 5000)
+            }
+
+            // Reset form
+            contactForm.reset()
+
+            // Redirect to thank you page
+            window.location.href = "thank-you.html"
           } else {
             throw new Error("Network response was not ok")
           }
         })
         .catch((error) => {
-          showErrorNotification(error)
+          console.error("Error:", error)
+
+          // Show error notification
+          const notification = document.getElementById("notification")
+          if (notification) {
+            const notificationContent = notification.querySelector(".notification-content p")
+            if (notificationContent) {
+              notificationContent.textContent = "Възникна грешка при изпращането. Моля, опитайте отново по-късно."
+            }
+            const notificationIcon = notification.querySelector(".notification-content i")
+            if (notificationIcon) {
+              notificationIcon.className = "fas fa-exclamation-circle"
+              notificationIcon.style.color = "var(--error-color)"
+            }
+            notification.style.borderLeftColor = "var(--error-color)"
+            notification.style.display = "block"
+          }
         })
         .finally(() => {
-          resetButtonState(submitButton)
+          // Reset button state
+          if (submitButton) {
+            const buttonText = submitButton.querySelector(".btn-text")
+            const buttonIcon = submitButton.querySelector(".btn-icon")
+            const loadingIndicator = submitButton.querySelector(".loading-indicator")
+
+            submitButton.disabled = false
+            if (buttonText) buttonText.textContent = "Изпрати Съобщение"
+            if (buttonIcon) buttonIcon.style.display = "inline-block"
+            if (loadingIndicator) loadingIndicator.style.display = "none"
+          }
         })
     })
-  }
-
-  // Helper functions
-  function showSuccessAndRedirect() {
-    // Show success notification
-    const notification = document.getElementById("notification")
-    if (notification) {
-      const notificationContent = notification.querySelector(".notification-content p")
-      if (notificationContent) {
-        notificationContent.textContent = "Вашето съобщение е изпратено успешно! Ще се свържем с вас скоро."
-      }
-      notification.style.display = "block"
-
-      // Hide notification after 3 seconds
-      setTimeout(() => {
-        notification.style.display = "none"
-      }, 3000)
-    }
-
-    // Redirect to thank you page
-    setTimeout(() => {
-      window.location.href = "thank-you.html"
-    }, 1000)
-  }
-
-  function showErrorNotification(error) {
-    console.error("Error:", error)
-
-    // Show error notification
-    const notification = document.getElementById("notification")
-    if (notification) {
-      const notificationContent = notification.querySelector(".notification-content p")
-      if (notificationContent) {
-        notificationContent.textContent = "Възникна грешка при изпращането. Моля, опитайте отново по-късно."
-      }
-      const notificationIcon = notification.querySelector(".notification-content i")
-      if (notificationIcon) {
-        notificationIcon.className = "fas fa-exclamation-circle"
-        notificationIcon.style.color = "var(--error-color)"
-      }
-      notification.style.borderLeftColor = "var(--error-color)"
-      notification.style.display = "block"
-    }
-  }
-
-  function resetButtonState(submitButton) {
-    if (submitButton) {
-      const buttonText = submitButton.querySelector(".btn-text")
-      const buttonIcon = submitButton.querySelector(".btn-icon")
-      const loadingIndicator = submitButton.querySelector(".loading-indicator")
-
-      submitButton.disabled = false
-      if (buttonText) {
-        if (submitButton.closest("#orderForm")) {
-          buttonText.textContent = "Изпрати Заявка за Поръчка"
-        } else {
-          buttonText.textContent = "Изпрати Съобщение"
-        }
-      }
-      if (buttonIcon) buttonIcon.style.display = "inline-block"
-      if (loadingIndicator) loadingIndicator.style.display = "none"
-    }
   }
 
   // Form validation functions
@@ -272,22 +264,6 @@ document.addEventListener("DOMContentLoaded", () => {
         errorEl.textContent = "Моля, въведете описание (минимум 10 символа)"
         errorEl.style.display = "block"
         isValid = false
-      }
-    }
-
-    // File validation - check file size if a file is selected
-    const fileUpload = document.getElementById("fileUpload")
-    if (fileUpload && fileUpload.files.length > 0) {
-      const file = fileUpload.files[0]
-      const maxSize = 10 * 1024 * 1024 // 10MB
-
-      if (file.size > maxSize) {
-        const errorEl = document.getElementById("file-error")
-        if (errorEl) {
-          errorEl.textContent = "Файлът е твърде голям. Максималният размер е 10MB."
-          errorEl.style.display = "block"
-          isValid = false
-        }
       }
     }
 

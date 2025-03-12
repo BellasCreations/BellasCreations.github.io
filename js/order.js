@@ -115,9 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
           fileInfo.style.borderLeft = "3px solid var(--error-color)"
           fileInfo.style.padding = "0.5rem"
           fileInfo.style.borderRadius = "4px"
-
-          // Clear the file input
-          this.value = ""
           return
         }
 
