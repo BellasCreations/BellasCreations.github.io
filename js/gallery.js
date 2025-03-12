@@ -106,20 +106,20 @@ document.addEventListener("DOMContentLoaded", () => {
     galleryItem.style.animationDelay = `${0.1 + index * 0.1}s`
 
     galleryItem.innerHTML = `
-     <div class="gallery-image">
-       <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
-       <div class="gallery-overlay">
-         <button class="view-btn" data-id="${item.id}" data-type="${type}">Преглед</button>
-       </div>
-     </div>
-     <div class="gallery-info">
-       <div>
-         <h3>${item.title}</h3>
-         <p class="price">${item.price}</p>
-       </div>
-       <a href="order.html?type=${type}&item=${item.id}&title=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&price=${encodeURIComponent(item.price)}&image=${encodeURIComponent(item.image)}" class="btn secondary">Поръчай</a>
-     </div>
-   `
+    <div class="gallery-image">
+      <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
+      <div class="gallery-overlay">
+        <button class="view-btn" data-id="${item.id}" data-type="${type}">Преглед</button>
+      </div>
+    </div>
+    <div class="gallery-info">
+      <div>
+        <h3>${item.title}</h3>
+        <p class="price">${item.price}</p>
+      </div>
+      <a href="order.html?type=${type}&item=${item.id}&title=${encodeURIComponent(item.title)}&description=${encodeURIComponent(item.description)}&price=${encodeURIComponent(item.price)}&image=${encodeURIComponent(item.image)}" class="btn secondary">Поръчай</a>
+    </div>
+  `
 
     // Add hover animations
     const image = galleryItem.querySelector("img")
@@ -261,6 +261,59 @@ document.addEventListener("DOMContentLoaded", () => {
       this.classList.add("loaded")
     })
   }
+
+  // Add structured data for gallery items
+  const structuredDataScript = document.createElement("script")
+  structuredDataScript.type = "application/ld+json"
+
+  // Create structured data for all gallery items
+  const galleryItems = []
+
+  // Add caricatures to structured data
+  caricatures.forEach((item) => {
+    galleryItems.push({
+      "@type": "Product",
+      name: item.title,
+      description: item.description,
+      image: item.image,
+      offers: {
+        "@type": "Offer",
+        price: item.price.replace(/[^\d.]/g, ""),
+        priceCurrency: "BGN",
+        availability: "https://schema.org/InStock",
+      },
+    })
+  })
+
+  // Add figures to structured data
+  figures.forEach((item) => {
+    galleryItems.push({
+      "@type": "Product",
+      name: item.title,
+      description: item.description,
+      image: item.image,
+      offers: {
+        "@type": "Offer",
+        price: item.price.replace(/[^\d.]/g, ""),
+        priceCurrency: "BGN",
+        availability: "https://schema.org/InStock",
+      },
+    })
+  })
+
+  // Create the structured data object
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: galleryItems.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: item,
+    })),
+  }
+
+  structuredDataScript.textContent = JSON.stringify(structuredData)
+  document.head.appendChild(structuredDataScript)
 })
 
 // Add CSS for smooth zoom animations
