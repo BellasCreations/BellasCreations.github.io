@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Галерия Карикатури и 3D Фигури - Bella's Creations</title>
+  <meta name="description" content="Разгледайте нашата колекция от персонализирани карикатури и 3D принтирани фигури. Уникални произведения на изкуството за всеки повод.">
+  <meta name="keywords" content="карикатури, 3D принтиране, галерия, портретист, персонализирани подаръци, художник, България">
+  <link rel="canonical" href="https://bellascreations.bg/gallery.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/utilities.css">
+  <link rel="stylesheet" href="css/form-enhancements.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/enhancements.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">Bella's Creations</a>
+      </div>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Начало</a></li>
+          <li><a href="gallery.html" class="active">Галерия</a></li>
+          <li><a href="order.html">Поръчка</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="menu-toggle" id="menuToggle" aria-label="Отвори меню">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Галерия</h1>
+        <p>Разгледайте моята колекция от персонализирани карикатури и 3D принтирани фигури</p>
+        <div class="gallery-tabs">
+          <button class="tab-btn active" data-tab="caricatures">Карикатури</button>
+          <button class="tab-btn" data-tab="figures">3D Принтирани Фигури</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-content">
+      <div class="container">
+        <div class="tab-content active" id="caricatures">
+          <h2 class="sr-only">Карикатури</h2>
+          <div class="gallery-grid">
+            <!-- Caricature items will be loaded here by JavaScript -->
+          </div>
+        </div>
+
+        <div class="tab-content" id="figures">
+          <h2 class="sr-only">3D Принтирани Фигури</h2>
+          <div class="gallery-grid">
+            <!-- Figure items will be loaded here by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="modal" id="galleryModal" aria-hidden="true" role="dialog">
+      <div class="modal-content">
+        <span class="close-modal" aria-label="Затвори">&times;</span>
+        <img id="modalImage" src="images/placeholder.jpg" alt="">
+        <div class="modal-info">
+          <h3 id="modalTitle"></h3>
+          <p id="modalDescription"></p>
+          <p id="modalPrice" class="price"></p>
+          <a id="modalOrderBtn" href="" class="btn primary">Поръчай Подобно</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Готови за поръчка на вашето персонализирано произведение?</h2>
+        <a href="order.html" class="btn primary">Направи Поръчка</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; <span id="current-year"></span> Bella's Creations. Всички права запазени.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/bellas_creations.bg" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@bellas_creations.bg?_t=ZN-8ubNVX5o3LK&_r=1" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Component -->
+  <div class="notification" id="notification" aria-live="polite">
+    <div class="notification-content">
+      <i class="fas fa-check-circle"></i>
+      <p></p>
+    </div>
+    <button class="close-notification" aria-label="Затвори известие">&times;</button>
+  </div>
+
+  <script src="js/notification-helper.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/gallery.js"></script>
+</body>
+</html>
+

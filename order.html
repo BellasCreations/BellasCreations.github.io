@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Поръчка на Карикатури и 3D Фигури - Bella's Creations</title>
+  <meta name="description" content="Поръчайте персонализирана карикатура или 3D принтирана фигура от Bella's Creations. Уникални подаръци за всеки повод с безплатна консултация.">
+  <meta name="keywords" content="карикатури, 3D принтиране, персонализирана поръчка, персонализирани подаръци, художник, България, поръчка онлайн">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/utilities.css">
+  <link rel="stylesheet" href="css/form-enhancements.css">
+  <link rel="stylesheet" href="css/product-display-fix.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/enhancements.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">Bella's Creations</a>
+      </div>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Начало</a></li>
+          <li><a href="gallery.html">Галерия</a></li>
+          <li><a href="order.html" class="active">Поръчка</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Направете Поръчка</h1>
+        <p>Попълнете формуляра по-долу, за да заявите вашата персонализирана карикатура или 3D принтирана фигура</p>
+      </div>
+    </section>
+
+    <section class="order-form">
+      <div class="container">
+        <!-- Email Info Box -->
+        <div class="email-info-box">
+          <div class="email-info-icon">
+            <i class="fas fa-info-circle"></i>
+          </div>
+          <div class="email-info-content">
+            <h3>Как работи процесът на поръчка?</h3>
+            <p>След попълване и изпращане на формуляра, ще получите автоматично потвърждение на вашия имейл. Ще се свържем с вас скоро за повече детайли и цена.</p>
+          </div>
+        </div>
+        
+        <!-- Selected product info -->
+        <div id="selectedProductInfo" style="display: none;" class="form-section">
+          <h3>Избран Продукт</h3>
+          <div class="product-info-grid">
+            <div id="productImageContainer" style="display: none;" class="product-image-container">
+              <img id="productImage" src="images/placeholder.jpg" alt="Избран продукт" class="product-preview-image">
+            </div>
+            <div class="product-details">
+              <p><strong>Име:</strong> <span id="productTitle"></span></p>
+              <p><strong>Описание:</strong> <span id="productDescription"></span></p>
+              <p><strong>Цена:</strong> <span id="productPrice"></span></p>
+              <p class="note">Информацията за избрания продукт е предварително попълнена във формуляра за поръчка.</p>
+            </div>
+          </div>
+        </div>
+        
+        <form id="orderForm" action="https://formsubmit.co/bella.creations.bg@gmail.com" method="POST" enctype="multipart/form-data">
+          <!-- FormSubmit Configuration -->
+          <input type="hidden" name="_subject" value="Нова Поръчка от Уебсайта">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="thank-you.html">
+          <input type="hidden" name="_replyto" value="">
+          <input type="hidden" name="_language" value="bg">
+          
+          <!-- Auto-response configuration -->
+          <input type="hidden" name="_autoresponse" value="Благодарим Ви за поръчката! Това е автоматично потвърждение, че получихме Вашата заявка. Ще се свържем с Вас в рамките на 24 часа за потвърждение на детайлите и цената. С уважение, Екипът на Bella's Creations">
+          
+          <!-- Debug field to track form submissions -->
+          <input type="hidden" name="form_source" value="website_order_form">
+          
+          <!-- Honeypot anti-spam -->
+          <input type="text" name="_honey" style="display:none">
+          
+          <div class="form-section">
+            <h2>Информация за Контакт</h2>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Име <span class="required">*</span></label>
+                <input type="text" id="name" name="name" placeholder="Вашето име" required>
+                <div class="error-message" id="name-error">Моля, въведете вашето име</div>
+              </div>
+              <div class="form-group">
+                <label for="email">Имейл <span class="required">*</span></label>
+                <input type="email" id="email" name="email" placeholder="вашият@имейл.com" required>
+                <div class="error-message" id="email-error">Моля, въведете валиден имейл адрес</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone">Телефон (по избор)</label>
+              <input type="tel" id="phone" name="phone" placeholder="Вашият телефонен номер">
+            </div>
+          </div>
+
+          <div class="form-section" id="orderTypeSection">
+            <h2>Детайли за Поръчката</h2>
+            <div class="form-group">
+              <label>Тип Поръчка <span class="required">*</span></label>
+              <div class="order-type-tabs">
+                <div class="tab-option">
+                  <input type="radio" id="caricature" name="orderType" value="Карикатура" checked>
+                  <label for="caricature">Карикатура</label>
+                </div>
+                <div class="tab-option">
+                  <input type="radio" id="figure" name="orderType" value="3D Принтирана Фигура">
+                  <label for="figure">3D Принтирана Фигура</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-type-content" id="caricatureOptions">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="caricatureStyle">Стил</label>
+                  <select id="caricatureStyle" name="caricatureStyle">
+                    <option value="">Изберете стил</option>
+                    <option value="Карикатурен">Карикатурен</option>
+                    <option value="Реалистичен">Реалистичен</option>
+                    <option value="Комикс">Комикс</option>
+                    <option value="Аниме">Аниме</option>
+                    <option value="Друг">Друг (уточнете в описанието)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="caricatureSize">Размер</label>
+                  <select id="caricatureSize" name="caricatureSize">
+                    <option value="">Изберете размер</option>
+                    <option value="Малък (20x25 см)">Малък (20x25 см)</option>
+                    <option value="Среден (28x35 см)">Среден (28x35 см)</option>
+                    <option value="Голям (40x50 см)">Голям (40x50 см)</option>
+                    <option value="По избор">По избор (уточнете в описанието)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="order-type-content" id="figureOptions" style="display: none;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="figureStyle">Стил</label>
+                  <select id="figureStyle" name="figureStyle">
+                    <option value="">Изберете стил</option>
+                    <option value="Реалистичен">Реалистичен</option>
+                    <option value="Стилизиран">Стилизиран</option>
+                    <option value="Чиби">Чиби</option>
+                    <option value="Екшън Фигура">Екшън Фигура</option>
+                    <option value="Друг">Друг (уточнете в описанието)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="figureSize">Размер</label>
+                  <select id="figureSize" name="figureSize">
+                    <option value="">Изберете размер</option>
+                    <option value="Малък (7-12 см)">Малък (7-12 см)</option>
+                    <option value="Среден (15-20 см)">Среден (15-20 см)</option>
+                    <option value="Голям (22-30 см)">Голям (22-30 см)</option>
+                    <option value="По избор">По избор (уточнете в описанието)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="quantity">Количество <span class="required">*</span></label>
+              <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+              <div class="error-message" id="quantity-error">Моля, въведете количество (минимум 1)</div>
+            </div>
+
+            <div class="form-group">
+              <label>Начин на Доставка <span class="required">*</span></label>
+              <div class="radio-options">
+                <div class="radio-option">
+                  <input type="radio" id="digital" name="deliveryMethod" value="Дигитален (Имейл)" checked>
+                  <label for="digital">Дигитален (Имейл)</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" id="physical" name="deliveryMethod" value="Физически (Поща)">
+                  <label for="physical">Физически (Поща)</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" id="both" name="deliveryMethod" value="Дигитален и Физически">
+                  <label for="both">Дигитален и Физически</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Описание <span class="required">*</span></label>
+              <textarea id="description" name="description" rows="5" required placeholder="Моля, опишете какво искате. Включете детайли за пози, фон, цветове и т.н."></textarea>
+              <small>Колкото повече детайли предоставите, толкова по-добър ще бъде крайният резултат.</small>
+              <div class="error-message" id="description-error">Моля, въведете описание (минимум 10 символа)</div>
+            </div>
+
+            <div class="form-group">
+              <label for="fileUpload">Качете Референтна Снимка</label>
+              <div class="file-upload">
+                <div class="file-upload-box">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Кликнете за качване или плъзнете и пуснете</p>
+                  <p class="small">PNG, JPG или JPEG (макс. 10MB)</p>
+                </div>
+                <input type="file" id="fileUpload" name="attachment" accept="image/png, image/jpeg, image/jpg">
+              </div>
+              <div id="fileInfo" class="file-info"></div>
+              <small>Качването на снимка е по избор, но ще помогне за по-точно изпълнение на поръчката.</small>
+              <div class="error-message" id="file-error"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="instagramLink"><i class="fab fa-instagram"></i> Instagram Линк (по избор)</label>
+              <input type="url" id="instagramLink" name="instagramLink" placeholder="https://www.instagram.com/вашият_профил">
+              <small>Споделете вашия Instagram профил за допълнителни референтни снимки</small>
+            </div>
+            
+            <!-- Hidden field for selected product info -->
+            <input type="hidden" id="selectedProductInfo_hidden" name="selectedProduct" value="">
+          </div>
+
+          <button type="submit" class="btn primary full-width" id="submitOrder">
+            <span class="btn-text">Изпрати Заявка за Поръчка</span>
+            <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
+            <span class="loading-indicator" style="display: none;">
+              <i class="fas fa-spinner fa-spin"></i>
+            </span>
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; <span id="current-year"></span> Bella's Creations. Всички права запазени.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/bellas_creations.bg" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@bellas_creations.bg?_t=ZN-8ubNVX5o3LK&_r=1" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Component -->
+  <div class="notification" id="notification">
+    <div class="notification-content">
+      <i class="fas fa-check-circle"></i>
+      <p>Вашата заявка за поръчка е изпратена успешно! Ще се свържем с вас скоро.</p>
+    </div>
+    <button class="close-notification">&times;</button>
+  </div>
+
+  <script src="js/notification-helper.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/order.js"></script>
+  
+  <!-- Script to validate Instagram links -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const instagramInput = document.getElementById('instagramLink');
+      
+      if (instagramInput) {
+        instagramInput.addEventListener('blur', function() {
+          let value = this.value.trim();
+          
+          // If the field is not empty, validate and format the Instagram URL
+          if (value) {
+            // Check if it's a username without URL
+            if (!value.startsWith('http') && !value.includes('instagram.com')) {
+              // Remove @ if present
+              if (value.startsWith('@')) {
+                value = value.substring(1);
+              }
+              // Format as proper Instagram URL
+              value = 'https://www.instagram.com/' + value;
+              this.value = value;
+            } 
+            // Check if it's missing https://
+            else if (value.startsWith('www.')) {
+              value = 'https://' + value;
+              this.value = value;
+            }
+            // Check if it's missing www.
+            else if (value.startsWith('instagram.com')) {
+              value = 'https://www.' + value;
+              this.value = value;
+            }
+          }
+        });
+      }
+    });
+  </script>
+  <script src="js/form-handler.js"></script>
+</body>
+</html>
+

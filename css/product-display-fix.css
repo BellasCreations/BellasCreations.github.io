@@ -1,0 +1,92 @@
+/* Product display fixes for order form */
+
+/* Product info container */
+#selectedProductInfo {
+  background-color: rgba(255, 248, 248, 0.7);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+/* Product info grid layout */
+.product-info-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+/* Product image container */
+.product-image-container {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+
+/* Product preview image */
+.product-preview-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Product details */
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-details p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.product-details .note {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .product-image-container {
+    max-width: 120px;
+    margin: 0 auto;
+  }
+}
+
+/* Animation for product info */
+.selected-type-note {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.change-type-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.change-type-link:hover {
+  color: var(--primary-dark);
+}
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Благодарим Ви! - Bella's Creations</title>
+  <meta name="description" content="Благодарим ви за вашето запитване или поръчка.">
+  <meta name="keywords" content="карикатури, 3D принтиране, персонализирани подаръци">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/utilities.css">
+  <link rel="stylesheet" href="css/form-enhancements.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <meta http-equiv="refresh" content="5;url=index.html">
+  <link rel="stylesheet" href="css/enhancements.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">Bella's Creations</a>
+      </div>
+      <nav>
+        <ul class="menu">
+          <li><a href="index.html">Начало</a></li>
+          <li><a href="gallery.html">Галерия</a></li>
+          <li><a href="order.html">Поръчка</a></li>
+          <li><a href="contact.html">Контакти</a></li>
+        </ul>
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="thank-you-section">
+      <div class="container">
+        <div class="thank-you-content">
+          <div class="thank-you-icon" data-animation="scale-up">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h1 data-animation="fade-in-up" data-delay="200">Благодарим Ви!</h1>
+          <p data-animation="fade-in-up" data-delay="300">Вашето съобщение беше изпратено успешно.</p>
+          <p data-animation="fade-in-up" data-delay="400">Ще се свържем с вас възможно най-скоро.</p>
+          <div class="redirect-message" data-animation="fade-in-up" data-delay="500">
+            <p>Ще бъдете пренасочени към началната страница след <span id="countdown" class="pulse">5</span> секунди.</p>
+            <p>Ако не бъдете пренасочени автоматично, <a href="index.html">кликнете тук</a>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; <span id="current-year"></span> Bella's Creations. Всички права запазени.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/bellas_creations.bg" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.tiktok.com/@bellas_creations.bg?_t=ZN-8ubNVX5o3LK&_r=1" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Countdown timer with animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const countdownElement = document.getElementById('countdown');
+      let seconds = 5;
+      
+      const interval = setInterval(function() {
+        seconds--;
+        if (countdownElement) {
+          countdownElement.textContent = seconds;
+          
+          // Add pulse animation on each count
+          countdownElement.classList.remove('pulse');
+          void countdownElement.offsetWidth; // Trigger reflow
+          countdownElement.classList.add('pulse');
+        }
+        
+        if (seconds <= 0) {
+          clearInterval(interval);
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
+
