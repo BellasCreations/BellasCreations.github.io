@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
       price: "65 лв.",
       alt: "Карикатура на човек в традиционна българска народна носия",
     },
-    // Removed Digital Fishing Caricature entry
     {
       id: 8,
       title: "Van Driver with Fish",
