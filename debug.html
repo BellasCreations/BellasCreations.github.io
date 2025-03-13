@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netlify Debug - Bella's Creations</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .debug-section {
+      margin-bottom: 30px;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .debug-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .success {
+      color: #28a745;
+    }
+    .error {
+      color: #dc3545;
+    }
+    .warning {
+      color: #ffc107;
+    }
+    button {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background: #ff5252;
+    }
+    pre {
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Netlify Deployment Debug</h1>
+  <p>This page helps diagnose issues with your Netlify deployment.</p>
+  
+  <div class="debug-section">
+    <h2>Page Accessibility Test</h2>
+    <p>Click the buttons below to test if pages are accessible:</p>
+    
+    <button onclick="testPage('index.html')">Test Home Page</button>
+    <button onclick="testPage('gallery.html')">Test Gallery Page</button>
+    <button onclick="testPage('order.html')">Test Order Page</button>
+    <button onclick="testPage('contact.html')">Test Contact Page</button>
+    <button onclick="testPage('thank-you.html')">Test Thank You Page</button>
+    
+    <div id="pageTestResults"></div>
+  </div>
+  
+  <div class="debug-section">
+    <h2>File Existence Check</h2>
+    <p>Checking if critical files exist:</p>
+    <div id="fileCheckResults">Checking files...</div>
+  </div>
+  
+  <div class="debug-section">
+    <h2>Environment Information</h2>
+    <div id="envInfo"></div>
+  </div>
+  
+  <div class="debug-section">
+    <h2>Netlify Configuration</h2>
+    <p>Checking for Netlify configuration files:</p>
+    <div id="configCheck"></div>
+  </div>
+  
+  <script>
+    // Test if a page is accessible
+    async function testPage(page) {
+      const resultsDiv = document.getElementById('pageTestResults');
+      const resultItem = document.createElement('div');
+      resultItem.className = 'debug-item';
+      
+      try {
+        const response = await fetch(page, { method: 'HEAD' });
+        if (response.ok) {
+          resultItem.innerHTML = `<span class="success">✓</span> ${page} is accessible (Status: ${response.status})`;
+        } else {
+          resultItem.innerHTML = `<span class="error">✗</span> ${page} returned status ${response.status}`;
+        }
+      } catch (error) {
+        resultItem.innerHTML = `<span class="error">✗</span> Error accessing ${page}: ${error.message}`;
+      }
+      
+      resultsDiv.appendChild(resultItem);
+    }
+    
+    // Check if critical files exist
+    async function checkFiles() {
+      const filesToCheck = [
+        'index.html', 'gallery.html', 'order.html', 'contact.html', 'thank-you.html',
+        'css/styles.css', 'js/main.js', 'js/gallery.js', 'netlify.toml', '_redirects'
+      ];
+      
+      const resultsDiv = document.getElementById('fileCheckResults');
+      resultsDiv.innerHTML = '';
+      
+      for (const file of filesToCheck) {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'debug-item';
+        
+        try {
+          const response = await fetch(file, { method: 'HEAD' });
+          if (response.ok) {
+            resultItem.innerHTML = `<span class="success">✓</span> ${file} exists`;
+          } else {
+            resultItem.innerHTML = `<span class="error">✗</span> ${file} not found (Status: ${response.status})`;
+          }
+        } catch (error) {
+          resultItem.innerHTML = `<span class="error">✗</span> Error checking ${file}: ${error.message}`;
+        }
+        
+        resultsDiv.appendChild(resultItem);
+      }
+    }
+    
+    // Display environment information
+    function showEnvironmentInfo() {
+      const envInfoDiv = document.getElementById('envInfo');
+      
+      const info = {
+        'User Agent': navigator.userAgent,
+        'URL': window.location.href,
+        'Protocol': window.location.protocol,
+        'Hostname': window.location.hostname,
+        'Pathname': window.location.pathname,
+        'Search': window.location.search,
+        'Hash': window.location.hash,
+        'Screen Width': window.screen.width,
+        'Screen Height': window.screen.height,
+        'Window Width': window.innerWidth,
+        'Window Height': window.innerHeight,
+        'Device Pixel Ratio': window.devicePixelRatio,
+        'Cookies Enabled': navigator.cookieEnabled,
+        'Language': navigator.language,
+        'Platform': navigator.platform,
+        'Connection Type': navigator.connection ? navigator.connection.effectiveType : 'Unknown'
+      };
+      
+      let html = '<pre>';
+      for (const [key, value] of Object.entries(info)) {
+        html += `${key}: ${value}\n`;
+      }
+      html += '</pre>';
+      
+      envInfoDiv.innerHTML = html;
+    }
+    
+    // Check Netlify configuration
+    async function checkNetlifyConfig() {
+      const configDiv = document.getElementById('configCheck');
+      
+      const configFiles = [
+        { name: 'netlify.toml', required: true },
+        { name: '_redirects', required: false }
+      ];
+      
+      for (const file of configFiles) {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'debug-item';
+        
+        try {
+          const response = await fetch(file.name, { method: 'HEAD' });
+          if (response.ok) {
+            resultItem.innerHTML = `<span class="success">✓</span> ${file.name} exists`;
+            
+            // If it's a text file, try to show its contents
+            if (file.name.endsWith('.toml') || file.name === '_redirects') {
+              try {
+                const contentResponse = await fetch(file.name);
+                const content = await contentResponse.text();
+                const contentPre = document.createElement('pre');
+                contentPre.textContent = content;
+                resultItem.appendChild(contentPre);
+              } catch (e) {
+                const errorNote = document.createElement('p');
+                errorNote.innerHTML = `<span class="warning">⚠</span> Could not read file contents: ${e.message}`;
+                resultItem.appendChild(errorNote);
+              }
+            }
+          } else {
+            if (file.required) {
+              resultItem.innerHTML = `<span class="error">✗</span> Required file ${file.name} not found (Status: ${response.status})`;
+            } else {
+              resultItem.innerHTML = `<span class="warning">⚠</span> Optional file ${file.name} not found (Status: ${response.status})`;
+            }
+          }
+        } catch (error) {
+          if (file.required) {
+            resultItem.innerHTML = `<span class="error">✗</span> Error checking required file ${file.name}: ${error.message}`;
+          } else {
+            resultItem.innerHTML = `<span class="warning">⚠</span> Error checking optional file ${file.name}: ${error.message}`;
+          }
+        }
+        
+        configDiv.appendChild(resultItem);
+      }
+    }
+    
+    // Run all checks when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      checkFiles();
+      showEnvironmentInfo();
+      checkNetlifyConfig();
+    });
+  </script>
+</body>
+</html>
+
