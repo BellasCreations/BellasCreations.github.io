@@ -117,23 +117,27 @@
           </div>
         </div>
         
-        <form id="orderForm" action="https://formsubmit.co/bella.creations.bg@gmail.com" method="POST" enctype="multipart/form-data">
-          <!-- FormSubmit Configuration -->
+        <form id="orderForm" name="order-form" method="POST" enctype="multipart/form-data" data-netlify="true" data-netlify-honeypot="bot-field">
+          <!-- Добавяме скрито поле за Netlify -->
+          <input type="hidden" name="form-name" value="order-form">
+          <!-- Honeypot поле за предотвратяване на спам -->
+          <div hidden>
+            <input name="bot-field">
+          </div>
+
+          <!-- Останалата част от формата остава същата -->
+          <!-- FormSubmit Configuration - премахваме тези полета -->
+          <!-- Премахнете следните редове:
           <input type="hidden" name="_subject" value="Нова Поръчка от Уебсайта">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_next" value="thank-you.html">
           <input type="hidden" name="_replyto" value="">
           <input type="hidden" name="_language" value="bg">
-          
-          <!-- Auto-response configuration -->
           <input type="hidden" name="_autoresponse" value="Благодарим Ви за поръчката! Това е автоматично потвърждение, че получихме Вашата заявка. Ще се свържем с Вас в рамките на 24 часа за потвърждение на детайлите и цената. С уважение, Екипът на Bella's Creations">
-          
-          <!-- Debug field to track form submissions -->
           <input type="hidden" name="form_source" value="website_order_form">
-          
-          <!-- Honeypot anti-spam -->
           <input type="text" name="_honey" style="display:none">
+          -->
           
           <div class="form-section">
             <h2>Информация за Контакт</h2>
@@ -313,6 +317,7 @@
     <button class="close-notification">&times;</button>
   </div>
 
+  <!-- Add our new script right before the closing body tag -->
   <script src="js/notification-helper.js"></script>
   <script src="js/main.js"></script>
   <script src="js/order.js"></script>
@@ -353,7 +358,7 @@
       }
     });
   </script>
-  <script src="js/form-handler.js"></script>
+  <script src="js/netlify-form-handler.js"></script>
 </body>
 </html>
 

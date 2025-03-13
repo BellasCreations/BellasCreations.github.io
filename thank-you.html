@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="css/form-enhancements.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <meta http-equiv="refresh" content="5;url=index.html">
   <link rel="stylesheet" href="css/enhancements.css">
 </head>
 <body>
@@ -90,6 +89,7 @@
         
         if (seconds <= 0) {
           clearInterval(interval);
+          window.location.href = "/"; // Redirect to home page
         }
       }, 1000);
     });

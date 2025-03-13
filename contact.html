@@ -76,24 +76,27 @@
               </div>
             </div>
             
-            <form id="contactForm" action="https://formsubmit.co/bella.creations.bg@gmail.com" method="POST">
-              <!-- FormSubmit Configuration -->
+            <form id="contactForm" name="contact-form" method="POST" enctype="multipart/form-data" data-netlify="true" data-netlify-honeypot="bot-field">
+              <!-- Добавяме скрито поле за Netlify -->
+              <input type="hidden" name="form-name" value="contact-form">
+              <!-- Honeypot поле за предотвратяване на спам -->
+              <div hidden>
+                <input name="bot-field">
+              </div>
+
+              <!-- Останалата част от формата остава същата -->
+              <!-- FormSubmit Configuration - премахваме тези полета -->
+              <!-- Премахнете следните редове:
               <input type="hidden" name="_subject" value="Ново Запитване от Уебсайта">
               <input type="hidden" name="_template" value="table">
               <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_next" value="thank-you.html">
               <input type="hidden" name="_replyto" value="">
               <input type="hidden" name="_language" value="bg">
-              
-              <!-- Auto-response configuration -->
               <input type="hidden" name="_autoresponse" value="Благодарим Ви за запитването! Това е автоматично потвърждение, че получихме Вашето съобщение. Ще се свържем с Вас възможно най-скоро. С уважение, Екипът на Bella's Creations">
-              
-              <!-- Debug field to track form submissions -->
               <input type="hidden" name="form_source" value="website_contact_form">
-              
-              <!-- Honeypot anti-spam -->
               <input type="text" name="_honey" style="display:none">
-              
+              -->
               <div class="form-group">
                 <label for="contactName">Име <span class="required">*</span></label>
                 <input type="text" id="contactName" name="name" placeholder="Вашето име" required>
@@ -143,14 +146,14 @@
                 <i class="fas fa-phone"></i>
                 <div>
                   <h3>Телефон</h3>
-                  <p>+359 87 772 0530</p>
+                  <p>+359 88 123 4567</p>
                 </div>
               </div>
               <div class="info-item">
                 <i class="fas fa-map-marker-alt"></i>
                 <div>
                   <h3>Локация</h3>
-                  <p>Пловдив, България</p>
+                  <p>София, България</p>
                 </div>
               </div>
 
@@ -259,7 +262,12 @@
       }
     });
   </script>
-  <script src="js/form-handler.js"></script>
+  <!-- Премахнете следните скриптове:
+<script src="js/form-handler.js"></script>
+-->
+
+<!-- Добавете нов скрипт за Netlify Forms -->
+<script src="js/netlify-form-handler.js"></script>
 </body>
 </html>
 
