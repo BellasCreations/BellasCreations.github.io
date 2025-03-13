@@ -1,7 +1,0 @@
-# Netlify _redirects file - Simple version
-/gallery    /gallery.html    200
-/order      /order.html      200
-/contact    /contact.html    200
-/thank-you  /thank-you.html  200
-/*          /index.html      404
-
